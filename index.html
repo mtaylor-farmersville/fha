@@ -355,8 +355,8 @@
     .layout{grid-template-columns:1fr}
     .layout-bg{background:var(--paper);box-shadow:none}
     aside{
-      position:sticky;
-      top:0;
+      position:relative;
+      top:auto;
       height:auto;
       z-index:50;
       padding:0;
@@ -367,12 +367,20 @@
       transition:transform .22s ease, box-shadow .22s ease;
       will-change:transform;
     }
-    aside.mobile-menu-hidden:not(.mobile-open){
+    aside.mobile-floating{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      width:100%;
+      z-index:9999;
+    }
+    aside.mobile-floating.mobile-menu-hidden:not(.mobile-open){
       transform:translateY(calc(-100% - 6px));
       box-shadow:none;
     }
-    aside.mobile-menu-visible,
-    aside.mobile-open{
+    aside.mobile-floating.mobile-menu-visible,
+    aside.mobile-floating.mobile-open{
       transform:translateY(0);
     }
     aside .brand{display:none!important}
@@ -990,11 +998,20 @@
     const sidebar = document.querySelector('.site-sidebar');
     const toggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('#handbook-nav');
+    const pageHeader = document.querySelector('.page-header');
     if(!sidebar || !toggle || !nav) return;
 
     const mobileQuery = window.matchMedia('(max-width: 1000px)');
     let lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
     let ticking = false;
+
+    function getScrollY(){
+      return Math.max(0, window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0);
+    }
+
+    function getFloatPoint(){
+      return pageHeader ? Math.max(0, pageHeader.offsetHeight - 4) : 0;
+    }
 
     function showQuickMenu(){
       sidebar.classList.add('mobile-menu-visible');
@@ -1007,6 +1024,13 @@
       sidebar.classList.remove('mobile-menu-visible');
     }
 
+    function setFloating(isFloating){
+      sidebar.classList.toggle('mobile-floating', isFloating);
+      if(!isFloating){
+        sidebar.classList.remove('mobile-menu-hidden','mobile-menu-visible');
+      }
+    }
+
     function setMenu(open){
       sidebar.classList.toggle('mobile-open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -1014,7 +1038,7 @@
     }
 
     function resetDesktopState(){
-      sidebar.classList.remove('mobile-menu-hidden','mobile-menu-visible','mobile-open');
+      sidebar.classList.remove('mobile-floating','mobile-menu-hidden','mobile-menu-visible','mobile-open');
       toggle.setAttribute('aria-expanded','false');
     }
 
@@ -1025,17 +1049,24 @@
         return;
       }
 
-      const currentScrollY = Math.max(0, window.scrollY || document.documentElement.scrollTop || 0);
+      const currentScrollY = getScrollY();
+      const floatPoint = getFloatPoint();
+      const shouldFloat = currentScrollY > floatPoint;
       const delta = currentScrollY - lastScrollY;
-      const meaningfulScroll = Math.abs(delta) > 6;
+      const meaningfulScroll = Math.abs(delta) > 4;
 
-      if(currentScrollY < 80){
+      setFloating(shouldFloat);
+
+      if(!shouldFloat){
+        // Near the top, keep the menu in its normal spot below the logo/header.
+        setMenu(false);
+      } else if(sidebar.classList.contains('mobile-open')){
         showQuickMenu();
       } else if(meaningfulScroll && delta < 0){
-        // Reveal the quick-link menu whenever the user scrolls upward.
+        // Any upward scroll reveals the quick-link menu.
         showQuickMenu();
-      } else if(meaningfulScroll && delta > 0 && currentScrollY > 140){
-        // Hide it while scrolling down so mobile readers get more page space.
+      } else if(meaningfulScroll && delta > 0){
+        // Downward scroll hides it so the content has more room.
         hideQuickMenu();
       }
 
@@ -1051,6 +1082,9 @@
     }
 
     toggle.addEventListener('click', function(){
+      if(mobileQuery.matches){
+        setFloating(getScrollY() > getFloatPoint());
+      }
       setMenu(!sidebar.classList.contains('mobile-open'));
     });
 
@@ -1073,18 +1107,19 @@
     });
 
     window.addEventListener('scroll', requestScrollUpdate, {passive:true});
+    window.addEventListener('touchmove', requestScrollUpdate, {passive:true});
 
     window.addEventListener('resize', function(){
       if(!mobileQuery.matches){
         resetDesktopState();
       } else {
-        lastScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-        showQuickMenu();
+        lastScrollY = getScrollY();
+        updateQuickMenuOnScroll();
       }
     });
 
     if(mobileQuery.matches){
-      showQuickMenu();
+      updateQuickMenuOnScroll();
     }
   })();
 </script>
