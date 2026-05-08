@@ -275,6 +275,36 @@
   .tag.gold{background:var(--gold-soft);color:#7a5614}
   .tag.muted{background:#ece5d6;color:#5d5544}
 
+  .button-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background:var(--gold);
+    color:var(--purple-deep);
+    border:1px solid var(--gold);
+    border-radius:5px;
+    padding:11px 16px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;
+    margin-top:6px;
+  }
+  .button-link:hover{
+    background:#cb9c47;
+    border-color:#cb9c47;
+    color:var(--purple-deep);
+    transform:translateY(-1px);
+    box-shadow:0 6px 16px rgba(40,17,74,.14);
+  }
+  .button-link:focus-visible{
+    outline:2px solid var(--purple-deep);
+    outline-offset:3px;
+  }
+
   /* DECORATIVE DIVIDER */
   .ornament{
     text-align:center;color:var(--gold);font-size:14px;
@@ -504,6 +534,8 @@
       <a href="#oncampus"><span class="num">VIII</span>In-Person Components</a>
       <a href="#honors"><span class="num">IX</span>Honors &amp; Recognition</a>
       <a href="#expectations"><span class="num">X</span>Student &amp; Family Expectations</a>
+      <a href="#registration"><span class="num">XI</span>Registration</a>
+      <a href="#contact"><span class="num">XII</span>Contact Us</a>
     </nav>
   </aside>
 
@@ -858,6 +890,38 @@
 
         <div class="callout purple editable">
           <strong>Enrollment is an opportunity, not a right.</strong> Students may be unenrolled from FHA for non-compliance with this handbook or for lack of participation, including repeated missed daily participation, failure to maintain pacing, or failure to meet attendance, conduct, or academic-integrity expectations.
+        </div>
+      </section>
+
+
+      <!-- REGISTRATION -->
+      <section id="registration">
+        <div class="section-head">
+          <span class="section-num editable">SECTION XI</span>
+          <h2 class="editable">Registration</h2>
+        </div>
+
+        <p class="lede-p editable">Registration is coming soon.</p>
+
+        <div class="card accent">
+          <h3 class="editable">Receive registration updates</h3>
+          <p class="editable">Families may complete the interest form to receive a notification when Farmersville Honors Academy registration is live.</p>
+          <a class="button-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeB4WF86R83Knl37mddlxlVqFnjrIsfKYn0eiYntyeH91K2TA/viewform?usp=publish-editor" aria-label="Interest form placeholder link">Interest Form</a>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="section-head">
+          <span class="section-num editable">SECTION XII</span>
+          <h2 class="editable">Contact Us</h2>
+        </div>
+
+        <p class="lede-p editable">Parents and students may email Farmersville Honors Academy with questions about the program, eligibility, registration, or next steps.</p>
+
+        <div class="card purple-accent">
+          <h3 class="editable">Questions?</h3>
+          <p class="editable">Send questions to <strong>fha@farmersvilleisd.org</strong>.</p>
         </div>
       </section>
 
