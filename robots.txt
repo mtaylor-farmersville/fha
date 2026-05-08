@@ -1,0 +1,24 @@
+# Allow all well-behaved crawlers and social media bots
+User-agent: *
+Allow: /
+
+# Explicitly allow social media preview bots
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+Sitemap: https://farmersvillehonorsacademy.netlify.app/sitemap.xml
