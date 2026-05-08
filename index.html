@@ -23,7 +23,12 @@
     --white:#ffffff;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{
+    scroll-behavior:smooth;
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
   body{
     margin:0;
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -33,18 +38,30 @@
     line-height:1.5;
     font-size:15px;
     min-height:100vh;
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
   }
   .layout-bg{
+    width:100%;
     max-width:1240px;
     margin:0 auto;
     background:linear-gradient(to right,var(--purple-deep) 0, var(--purple-deep) 260px, var(--paper) 260px, var(--paper) 100%);
     box-shadow:0 0 60px rgba(0,0,0,.18);
   }
   @media (max-width:1000px){
-    .layout-bg{background:var(--paper);box-shadow:none}
+    .layout-bg{background:var(--paper);box-shadow:none;width:100%;max-width:100%;overflow:hidden}
+    .layout,main,aside,.page-header,.hero,.content,footer{width:100%;max-width:100%}
+    table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    th,td{overflow-wrap:anywhere}
   }
   h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;font-weight:700;color:var(--purple-deep);letter-spacing:-.01em}
-  .layout{display:grid;grid-template-columns:260px minmax(0,1fr)}
+  .layout{
+    display:grid;
+    grid-template-columns:260px minmax(0,1fr);
+    width:100%;
+    max-width:100%;
+  }
 
   /* SIDEBAR */
   aside{
@@ -110,7 +127,9 @@
   .side-actions .primary:hover{background:#cb9c47}
 
   /* MAIN */
-  main{background:var(--paper);min-width:0}
+  main{background:var(--paper);min-width:0;max-width:100%;overflow:hidden}
+
+  img,svg,video,canvas{max-width:100%;height:auto}
 
   /* PAGE HEADER (full-width) */
   .page-header{
@@ -149,6 +168,8 @@
     padding:30px 56px 32px;
     text-align:center;
     border-bottom:1px solid rgba(0,0,0,.15);
+    position:relative;
+    overflow:hidden;
   }
   .hero-inner{
     max-width:none;
@@ -167,7 +188,7 @@
   .hero-meta .v{color:#fff;font-size:13.5px}
 
   /* CONTENT */
-  .content{padding:48px 64px 80px;max-width:none}
+  .content{padding:48px 64px 80px;max-width:100%;overflow-wrap:break-word}
   section{margin-bottom:56px;scroll-margin-top:20px}
   .section-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:22px}
   .section-num{
@@ -696,7 +717,7 @@
             <div class="step-num">6</div>
             <div class="step-body">
               <h4 class="editable">Onboarding &amp; Orientation</h4>
-              <p class="editable">Before the first day of classes, students complete a required FHA onboarding that covers how to access the LMS, log in to course platforms, communicate with teachers, locate assignments, and use district tools.</p>
+              <p class="editable">Before the first day of classes, students complete a required FHA onboarding that covers how to access the student learning platform, log in to course platforms, communicate with teachers, locate assignments, and use district tools.</p>
             </div>
           </div>
         </div>
@@ -712,7 +733,7 @@
         <table>
           <thead><tr><th style="width:30%">Topic</th><th>FHA Standards</th></tr></thead>
           <tbody>
-            <tr><td class="editable"><strong>Course delivery</strong></td><td class="editable">All courses are delivered virtually through the district-approved LMS by certified teachers. A blend of synchronous and asynchronous instruction is used.</td></tr>
+            <tr><td class="editable"><strong>Course delivery</strong></td><td class="editable">All courses are delivered virtually through the district-approved student learning platform by certified teachers. A blend of synchronous and asynchronous instruction is used.</td></tr>
             <tr><td class="editable"><strong>Pacing &amp; calendar</strong></td><td class="editable">FHA follows the FISD academic calendar and grading cycles. Each course follows the same TEKS and overall pacing as the in-person equivalent.</td></tr>
             <tr><td class="editable"><strong>Grading</strong></td><td class="editable">Grades follow the FISD secondary grading policy and post on the standard schedule. Virtual course grades count toward GPA and graduation requirements.</td></tr>
             <tr><td class="editable"><strong>STAAR / EOC</strong></td><td class="editable">FHA students take all required STAAR/EOC assessments in person at a designated FISD testing site on the district testing schedule.</td></tr>
@@ -787,7 +808,7 @@
           <h3 class="editable">Daily Attendance Signals</h3>
           <p style="font-size:13px;color:var(--muted);margin-bottom:8px" class="editable">Any one of the following, captured during the daily window:</p>
           <ul>
-            <li class="editable">LMS progress confirming access to instruction</li>
+            <li class="editable">student learning platform progress confirming access to instruction</li>
             <li class="editable">Daily teacher–student interaction (live, message, or conference)</li>
             <li class="editable">Assignment submission with timestamp</li>
           </ul>
