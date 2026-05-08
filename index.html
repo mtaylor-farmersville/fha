@@ -81,12 +81,21 @@
     border-radius:6px;border-left:2px solid transparent;
     transition:.15s;
   }
-  nav a:hover,
-  nav a:focus-visible{
+  nav a:hover{
     background:rgba(184,137,58,.14);
     color:#fff;
     border-left-color:var(--gold);
-    outline:none;
+  }
+  nav a:focus{outline:none}
+  nav a:focus-visible{
+    outline:2px solid rgba(184,137,58,.75);
+    outline-offset:2px;
+    color:#fff;
+  }
+  nav a:focus:not(:hover):not(:focus-visible){
+    background:transparent;
+    border-left-color:transparent;
+    color:#d9cfe8;
   }
   nav a .num{font-family:'Playfair Display',serif;color:var(--gold);font-size:12px;font-weight:700;width:18px;flex-shrink:0}
   .mobile-menu-toggle{display:none}
@@ -886,7 +895,16 @@
     });
 
     nav.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('mouseenter', function(){
+        if(document.activeElement && document.activeElement.closest && document.activeElement.closest('#handbook-nav')){
+          document.activeElement.blur();
+        }
+      });
+
       link.addEventListener('click', function(){
+        // Prevent a clicked menu item from staying visually highlighted after navigation.
+        this.blur();
+
         if(window.matchMedia('(max-width: 1000px)').matches){
           setMenu(false);
         }
