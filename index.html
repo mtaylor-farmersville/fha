@@ -81,9 +81,15 @@
     border-radius:6px;border-left:2px solid transparent;
     transition:.15s;
   }
-  nav a:hover{background:rgba(255,255,255,.06);color:#fff}
-  nav a.active{background:rgba(184,137,58,.14);color:#fff;border-left-color:var(--gold)}
+  nav a:hover,
+  nav a:focus-visible{
+    background:rgba(184,137,58,.14);
+    color:#fff;
+    border-left-color:var(--gold);
+    outline:none;
+  }
   nav a .num{font-family:'Playfair Display',serif;color:var(--gold);font-size:12px;font-weight:700;width:18px;flex-shrink:0}
+  .mobile-menu-toggle{display:none}
   .side-actions{margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);display:grid;gap:8px}
   .side-actions button{
     background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;
@@ -135,8 +141,8 @@
     text-align:center;
     border-bottom:1px solid rgba(0,0,0,.15);
   }
-  .hero-inner{max-width:none}
-    padding:48px 56px 40px;
+  .hero-inner{
+    max-width:none;
     position:relative;
     overflow:hidden;
   }
@@ -280,12 +286,92 @@
   /* RESPONSIVE */
   @media (max-width:1000px){
     .layout{grid-template-columns:1fr}
-    aside{position:relative;height:auto}
-    .page-header-inner{padding:22px 24px}
-    .hero{padding:22px 24px}
-    .content{padding:32px 28px 60px}
+    .layout-bg{background:var(--paper);box-shadow:none}
+    aside{
+      position:sticky;
+      top:0;
+      height:auto;
+      z-index:50;
+      padding:0;
+      overflow:visible;
+      box-shadow:0 8px 24px rgba(0,0,0,.2);
+      border-bottom:3px solid var(--gold);
+    }
+    aside .brand{display:none!important}
+    .mobile-menu-toggle{
+      display:flex;
+      width:100%;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:13px 20px;
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      border:0;
+      border-top:1px solid rgba(255,255,255,.12);
+      font-family:inherit;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      cursor:pointer;
+      text-align:left;
+    }
+    .mobile-menu-toggle:hover,
+    .mobile-menu-toggle:focus-visible{
+      background:rgba(184,137,58,.16);
+      outline:2px solid rgba(184,137,58,.7);
+      outline-offset:-2px;
+    }
+    .mobile-menu-copy{display:flex;flex-direction:column;gap:2px}
+    .mobile-menu-hint{
+      color:#d9cfe8;
+      font-size:11.5px;
+      font-weight:500;
+      letter-spacing:0;
+      text-transform:none;
+    }
+    .mobile-menu-chevron{
+      color:var(--gold);
+      font-size:16px;
+      line-height:1;
+      transition:transform .18s ease;
+    }
+    aside.mobile-open .mobile-menu-chevron{transform:rotate(180deg)}
+    aside nav{
+      display:none;
+      margin:0;
+      padding:8px 14px 14px;
+      border-top:1px solid rgba(255,255,255,.12);
+      max-height:70vh;
+      overflow:auto;
+    }
+    aside.mobile-open nav{display:block}
+    nav .nav-label{display:none}
+    nav a{
+      font-size:14px;
+      padding:11px 12px;
+      margin:2px 0;
+    }
+    section{scroll-margin-top:128px}
+    .page-header-inner{padding:10px 16px}
+    .page-header img{max-width:360px;margin:-14px 0}
+    .hero{padding:24px 22px;text-align:left}
+    .hero .lede{font-size:16px}
+    .content{padding:30px 22px 60px}
+    .section-head{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:4px;
+    }
+    .section-head h2{
+      font-size:27px;
+      line-height:1.2;
+      width:100%;
+    }
     .grid-2,.grid-3{grid-template-columns:1fr}
     .policy{grid-template-columns:1fr;gap:6px}
+    footer{padding:24px 22px}
   }
 
   /* EDIT MODE TOOLBAR */
@@ -383,25 +469,34 @@
 <div class="layout-bg">
 <div class="layout">
 
-  <aside>
+  <aside class="site-sidebar">
     <div class="brand" style="display:block;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:18px">
-      <div class="brand-name" style="font-size:17px">Farmersville<br>Honors Academy</div>
-      <div class="brand-sub" style="margin-top:6px">Virtual Learning</div>
+      <div>
+        <div class="brand-name" style="font-size:17px">Farmersville<br>Honors Academy</div>
+        <div class="brand-sub" style="margin-top:6px">Virtual Learning</div>
+      </div>
     </div>
-    <nav>
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="handbook-nav">
+      <span class="mobile-menu-copy">
+        <span>Handbook Menu</span>
+        <span class="mobile-menu-hint">Tap to jump to a section</span>
+      </span>
+      <span class="mobile-menu-chevron" aria-hidden="true">▾</span>
+    </button>
+    <nav id="handbook-nav" aria-label="Handbook sections">
       <div class="nav-label">Handbook</div>
-      <a href="#overview" class="active"><span class="num">I</span>Program Overview</a>
-      <a href="#honors-meaning" class=""><span class="num">II</span>What Honors Means</a>
-      <a href="#eligibility" class=""><span class="num">III</span>Eligibility &amp; Admission</a>
-      <a href="#enrollment" class=""><span class="num">IV</span>Enrollment Process</a>
-      <a href="#academics" class=""><span class="num">V</span>Academic Overview</a>
-      <a href="#extracurriculars" class=""><span class="num">VI</span>Extra-Curriculars</a>
-      <a href="#attendance" class=""><span class="num">VII</span>Attendance &amp; Engagement</a>
-      <a href="#oncampus" class=""><span class="num">VIII</span>In-Person Components</a>
-      <a href="#honors" class=""><span class="num">IX</span>Honors &amp; Recognition</a>
-      <a href="#expectations" class=""><span class="num">X</span>Student &amp; Family Expectations</a>
+      <a href="#overview"><span class="num">I</span>Program Overview</a>
+      <a href="#honors-meaning"><span class="num">II</span>What Honors Means</a>
+      <a href="#eligibility"><span class="num">III</span>Eligibility &amp; Admission</a>
+      <a href="#enrollment"><span class="num">IV</span>Enrollment Process</a>
+      <a href="#academics"><span class="num">V</span>Academic Overview</a>
+      <a href="#extracurriculars"><span class="num">VI</span>Extra-Curriculars</a>
+      <a href="#attendance"><span class="num">VII</span>Attendance &amp; Engagement</a>
+      <a href="#oncampus"><span class="num">VIII</span>In-Person Components</a>
+      <a href="#honors"><span class="num">IX</span>Honors &amp; Recognition</a>
+      <a href="#expectations"><span class="num">X</span>Student &amp; Family Expectations</a>
     </nav>
-      </aside>
+  </aside>
 
   <main>
 
@@ -773,5 +868,37 @@
   </main>
 </div>
 </div>
+
+<script>
+  (function(){
+    const sidebar = document.querySelector('.site-sidebar');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const nav = document.querySelector('#handbook-nav');
+    if(!sidebar || !toggle || !nav) return;
+
+    function setMenu(open){
+      sidebar.classList.toggle('mobile-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    toggle.addEventListener('click', function(){
+      setMenu(!sidebar.classList.contains('mobile-open'));
+    });
+
+    nav.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        if(window.matchMedia('(max-width: 1000px)').matches){
+          setMenu(false);
+        }
+      });
+    });
+
+    window.addEventListener('resize', function(){
+      if(!window.matchMedia('(max-width: 1000px)').matches){
+        setMenu(false);
+      }
+    });
+  })();
+</script>
 
 </body></html>
